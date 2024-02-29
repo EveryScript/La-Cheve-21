@@ -1,0 +1,45 @@
+<!-- Navigate -->
+<div class="container">
+  <div class="row justify-content-center  mt-2">
+    <div class="col-auto" *ngFor="let area of areas">
+      <button type="button" class="btn btn-primary position-relative me-md-0 mt-2" style="min-width: 100px;"
+        [ngClass]="{'btn-info' : active_area == area.area}" (click)="showTablesByArea(area.area)">
+        <span *ngIf="area.nro_occupied_tables" class="badge bg-danger">{{area.nro_occupied_tables}}</span>
+          &nbsp;&nbsp;{{ area.area }}&nbsp;&nbsp;
+        <span class="badge bg-dark" *ngIf="area.nro_tables">{{area.nro_tables}}</span>
+        <span *ngIf="area.count_notify" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+          {{area.count_notify}}
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+  <!--
+    <ul class="nav nav-pills mb-1" *ngFor="let area of areas">
+      <li class="nav-item">
+        <a class="nav-link separate arrow" [ngClass]="{'active' : active_area == area.area}"
+          (click)="showTablesByArea(area.area)">{{ area.area }} </a>
+      </li>
+    </ul>
+  -->
+<!-- Content -->
+<div id="myTabContent" class="tab-content mt-2">
+  <!-- Loading spinner ... -->
+  <div class="text-center" *ngIf="!tables_by_area">
+    <div class="spinner-border" style="width: 3rem; height: 3rem; margin-top: 50px;" role="status">
+    </div>
+  </div>
+  <div class="d-flex justify-content-center row m-2">
+    <!-- One button -->
+    <div class="col-md-2 col-sm-3 col-3 card text-center m-1" *ngFor="let table of tables_by_area" 
+      [ngClass]="table.status=='FREE' ? 'bg-success': (table.status=='OCCUPIED' ? 'bg-danger' : (table.status=='READY' ? 'bg-warning' : (table.status=='COOKING' ? 'bg-danger':'')))"
+      id="tb-1">
+      <a class="text-normal arrow" (click)="showAccountByTable(table.id)">
+        <div class="card-body hover-scale" style="padding: 1rem 0rem;">
+          <h4 class="card-title" style="font-size: 40px;"> {{ table.name.substring(5, 20) }} </h4>
+          <p class="card-text" id="label-tb-1" style="font-size:16px;"> {{ formatTableStatus(table.status) }} </p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

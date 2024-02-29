@@ -1,0 +1,17 @@
+<!-- Active Account -->
+<div class="container mt-3" id="card-account">
+    <div class="card border-danger mb-3" style="height: 100%; max-height: 50%">
+      <div class="card-header text-center bg-danger fs-5"> {{ 'MESA '+table_id }} </div>
+      <div class="card-body" style="height:85vh;">
+        <img src="../../../assets/img/icons/check.png" width="100px" class="d-block mx-auto mt-4 mb-4">
+        <h3 class="text-center"> Cuenta finalizada </h3>
+        <p class="text-center mb-4">Envíe el ticket del Resunen de a Cuenta al Administrador para ser impreso ahora mismo </p>
+        <!-- Buttons -->
+        <div class="d-flex justify-content-center mt-2 mb-2" id="buttons-area">
+          <button type="button" class="btn btn-danger" (click)="btnReturnTables()">
+            <i class="bi bi-check separate"></i> Enviar y regresar a Mesas
+          </button>
+        </div>
+      </div>
+    </div>
+</div>

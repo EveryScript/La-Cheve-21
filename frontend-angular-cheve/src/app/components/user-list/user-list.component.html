@@ -1,0 +1,44 @@
+<div class="container mt-3">
+    <!-- Buttons and inputs -->
+    <a [routerLink]="['/admin']"><button class="btn btn-success btn-sm mb-2 separate"><i class="bi bi-arrow-90deg-left separate"></i> Volver </button> </a>
+    <a [routerLink]="['/user-edit']"><button class="btn btn-success btn-sm mb-2"><i class="bi bi-plus-lg"></i> Nuevo usuario</button></a>
+    
+    <div class="tab-pane fade p-2 active show" id="menu-table" style="margin-bottom: 150px;">
+      <!-- Loading spinner ... -->
+      <div class="text-center" *ngIf="!users">
+        <div class="spinner-border" style="width: 3rem; height: 3rem; margin-top: 50px;" role="status">
+        </div>
+      </div>
+      <!-- Users List -->
+      <div class="table-wrapper-scroll-y my-custom-scrollbar" style="min-height:60vh; overflow-x:auto;" *ngIf="users">
+        <table class="table table-hover mt-1">
+          <thead>
+            <tr>
+              <th scope="col text-primary">Nombre</th>
+              <th scope="col text-primary" class="text-center">Nombre de usuario</th>
+              <th scope="col text-primary" class="text-center">Rol</th>
+              <th scope="col text-primary" style="text-align: right;">Operaciones</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let user of users" class="small-text">
+            <tr>
+              <td> {{ user.name+' '+user.surname }} </td>
+              <td class="text-center"> {{ user.username }} </td>
+              <td class="text-center" [ngClass]="user.role=='DELETED' ? 'text-danger':''"> {{ formatRoleUser(user.role) }} </td>
+              <td style="text-align: right;">
+                <button class="btn btn-primary btn-sm separate" *ngIf="user_logged.role != 'ADMIN'" (click)="btnEditUser(user.id)" [disabled]="user.role=='DELETED' || user.role == 'ADMIN'">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button class="btn btn-primary btn-sm separate" *ngIf="user_logged.role == 'ADMIN'" (click)="btnEditUser(user.id)" [disabled]="user.role=='DELETED'">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button class="btn btn-primary btn-sm" (click)="btnDeleteUser(user.id)" [disabled]="user.id == user_logged.sub || user.role=='DELETED' || user.role == 'ADMIN'">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

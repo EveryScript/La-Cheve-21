@@ -1,0 +1,64 @@
+
+  <style>
+    .up_btn[_ngcontent-kor-c53] {
+      background-color: transparent;
+      color: #fff;
+    }
+  </style>
+  <div class="col-md-8 mx-auto p-3 mb-6" style="margin-bottom: 50px;">
+    <!-- User Form -->
+    <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+      <div class="col-md-4 mx-auto mb-2 text-center avatar-content">
+        <img src="assets/img/users/default.png" *ngIf="!actual_image" class="d-block mx-auto" width="150" style="margin-bottom: 10px;" alt=""> <br>
+        <!-- <angular-file-uploader class="mx-auto" [config]="afuConfig" (ApiResponse)="uploadAvatar($event)"> </angular-file-uploader> -->
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 form-group has-danger mb-2">
+          <label class="form-label" for="name">Nombres</label>
+          <input type="text" class="form-control" [ngClass]="!name.valid ? 'is-invalid': ''" id="name" name="name" #name="ngModel" [(ngModel)]="user.name" pattern="[a-zA-Z ]+" required autofocus>
+          <span class="text-danger" *ngIf="!name.valid && name.touched"> El nombre no es válido </span>
+        </div>   
+        
+        <div class="col-md-6 form-group has-danger mb-2">
+          <label class="form-label" for="surname">Apellidos</label>
+          <input type="text" class="form-control" [ngClass]="!surname.valid ? 'is-invalid': ''" id="surname" name="surname" #surname="ngModel" [(ngModel)]="user.surname" pattern="[a-zA-Z ]+" required>
+          <span class="text-danger" *ngIf="!surname.valid && surname.touched"> Los apellidos no son validos </span>
+        </div>
+  
+        <div class="col-md-6 form-group has-danger mb-2">
+          <label class="form-label" for="email">Nombre de usuario</label>
+          <input type="email" class="form-control" [ngClass]="!username.valid ? 'is-invalid': ''" id="username" name="username" #username="ngModel" [(ngModel)]="user.username" required>
+          <span class="text-danger" *ngIf="!username.valid && username.touched"> El nombre de usuario no es válido </span>
+        </div>
+
+        <div class="col-md-6 form-group mb-4">
+          <label for="role" class="form-label">Rol de usuario</label>
+          <select class="form-select" id="role" name="role" #role="ngModel" [(ngModel)]="user.role">
+              <option value="WAITER"> Mesero </option>
+              <option value="COOK"> Cocina </option>
+              <option value="BAR"> Bar </option>
+              <option value="MAIN" *ngIf="user_logged.role == 'ADMIN'"> Principal </option>
+              <option value="ADMIN" *ngIf="user_logged.role == 'ADMIN'"> Administrador </option>
+          </select>
+        </div>
+  
+        <div class="col-md-6 form-group has-danger mb-4">
+          <label class="form-label" for="password_a">Contraseña</label>
+          <input type="password" class="form-control" [ngClass]="!pass_flag ? 'is-invalid': 'is-valid'" id="password_a" name="password_a" #password_a="ngModel" [(ngModel)]="pass_a" required>
+          <span class="text-danger" *ngIf="!pass_flag"> Las contraseñas no coinciden </span>
+        </div>
+  
+        <div class="col-md-6 form-group has-danger mb-4">
+          <label class="form-label" for="password_b">Confirmar contraseña</label>
+          <input type="password" class="form-control" [ngClass]="!pass_flag ? 'is-invalid': 'is-valid'" id="password_b" name="password_b" #password_b="ngModel" [(ngModel)]="pass_b" (keyup)="verifySamePassword()" required>
+          <span class="text-danger" *ngIf="!pass_flag"> Las contraseñas no coinciden </span>
+        </div>  
+        <div class="col-md-12">
+          <input type="submit" class="btn btn-success btn-sm separate" value="Registrar" *ngIf="!edit_mode" [disabled]="!userForm.valid || !pass_flag">
+          <input type="submit" class="btn btn-success btn-sm separate" value="Guardar cambios" *ngIf="edit_mode" [disabled]="!userForm.valid">
+          <input type="button" class="btn btn-success btn-sm" value="Cancelar" (click)="backToUsersList()">
+        </div>
+      </div>
+    </form>
+  </div>

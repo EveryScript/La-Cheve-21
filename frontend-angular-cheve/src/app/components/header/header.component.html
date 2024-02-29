@@ -1,0 +1,29 @@
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="header_flag"> -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a [routerLink]="['/home']" class="navbar-brand"> <img src="assets/img/icons/main.png" width="55" alt="">
+            <!-- <span style="font-style: italic;font-size: 17px;">Cheve 21</span> -->
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
+            aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarColor02" style="z-index:99;">
+            <ul class="navbar-nav mr-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false">
+                        <img src="assets/img/users/default.png" class="profile-image" alt=""> {{ user_logged.name+'
+                        '+user_logged.surname }}
+                    </a>
+                    <div class="dropdown-menu">
+                        <!-- <a class="dropdown-item arrow" (click)="btnEditUser()">Ajustes</a>
+                <div class="dropdown-divider"></div> -->
+                        <a class="dropdown-item arrow" (click)="closeSesion()">Cerrar sesion</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

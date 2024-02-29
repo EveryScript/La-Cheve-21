@@ -1,0 +1,70 @@
+<h3 class="d-block text-center mt-3"> Panel de control de pedidos </h3>
+<p class="card-text text-muted text-center"> Seleccione el tiempo de visualización para obtener los pedidos de la empresa </p>
+<!-- Buttons and inputs -->
+<div class="d-block text-center">
+    <select [(ngModel)]="time_ago" style="margin:0px auto; width:70%;" class="d-block mb-1 p-2">
+        <option [value]="1">Ultima hora</option>
+        <option [value]="3">Ultimas 3 horas</option>
+        <option [value]="6">Ultimas 6 horas</option>
+        <option [value]="12">Ultimas 12 horas</option>
+        <option [value]="24">Ultimas 24 horas</option>
+    </select>
+    <a [routerLink]="['/admin']">
+        <button class="btn btn-danger btn-sm separate mb-2">
+            <!-- Spinner en Boton -->
+            <span> <i class="bi bi-arrow-90deg-left separate"></i> Volver </span>
+        </button>
+    </a>
+    <button class="btn btn-success btn-sm mb-2" (click)="getAccountsControlPanel()" [disabled]="!time_ago">
+        <!-- <span class="spinner-border spinner-border-sm separate" role="status" aria-hidden="true"></span> -->
+        <span> <i class="bi bi-arrow-clockwise separate"></i> Mostrar </span>
+    </button>
+</div>
+<!-- Mostrar mesa y ordenes -->
+<div class="d-flex justify-content-center">
+    <div class="col-md-7">
+        <div id="myTabContent" class="tab-content">
+            <!-- Accounts to print -->
+            <div class="tab-pane fade p-2 active show" id="pendients">
+                <div class="table-wrapper-scroll-y my-custom-scrollbar" style="min-height:75vh;">
+                    <span class="text-muted text-center d-block"
+                        *ngIf="accounts && accounts.length==0"> (vacio) </span>
+                    <span class="text-muted text-center d-block mb-3" *ngIf="accounts_flag"> Cargando cuentas ...
+                    </span>
+                    <!-- Card Order -->
+                    <div *ngFor="let account of accounts">
+                        <div class="card border-light mb-3">
+                            <div class="card-header">
+                                <span> <i class="bi bi-clock-fill separate"></i> Inicio del servicio: {{
+                                    formatTimeAgo(account.created_at) }} </span>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <span class="text-success text-center" style="font-size:25px;"> <strong> {{ account.table.name }} </strong> </span>
+                                    <p class="text-center mb-0" style="font-size:13;"> 👤 {{ account.user.name+' '+account.user.surname }} </p>
+                                    <p class="text-center text-warning mb-0" style="font-size:13;"> {{ formatAccountStatus(account.status) }} </p>
+                                    <table class="table table-hover" style="font-size:14px;">
+                                        <tbody>
+                                            <tr>
+                                                <th> Producto </th>
+                                                <th> Enviado </th>
+                                                <th> Completado </th>
+                                            </tr>
+                                            <tr *ngFor="let order of account.orders">
+                                                <td> {{ order.amount }} {{ order.product.name }} </td>
+                                                <td> {{ formatTimeAgo(order.created_at) }} </td>
+                                                <td *ngIf="order.status == 'PENDING'"> 🔥 </td>
+                                                <td *ngIf="order.status == 'DELETED'" class="text-danger"> Pedido eliminado </td>
+                                                <td *ngIf="order.status == 'COMPLETED'"> {{ formatTimeAgo(order.updated_at) }} </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

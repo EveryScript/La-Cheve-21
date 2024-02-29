@@ -1,0 +1,48 @@
+ /* Style Resume Image Account */
+@font-face {
+    font-family: Resume_Font;
+    src: url("../../../assets/fonts/MonoPixel.ttf");
+}
+
+.fct-content {
+    font-family: Resume_Font;
+    display: block;
+    margin: 0px auto;
+    text-align: center;
+    width: 50%;
+    background-color: white;
+    color: black;
+    padding: 20px 10px;
+    font-size: 20px;
+}
+
+.fct-image {
+    display: block;
+    margin: 0px auto;
+    margin-bottom: 10px;
+    width: 150px;
+}
+
+.fct-table {
+    margin: 0px auto;
+    text-transform: uppercase;
+}
+
+.fct-product {
+    width: 30%;
+    text-align: left;
+}
+
+.fct-total {
+    border-top: 2px solid black;
+    font-weight: bold;
+}
+
+.fct-title {
+    text-transform: uppercase;
+    font-size: 30px;
+}
+
+.fct-footer {
+    font-size: 15px;
+}

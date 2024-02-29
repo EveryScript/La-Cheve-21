@@ -1,0 +1,12 @@
+<img src="assets/img/icons/main.png" width="160" alt="" class="m-auto d-block mt-5">
+<!-- Main options -->
+<div class="d-flex justify-content-center row" style="width:100%; margin-top:5%; margin-bottom:10%; margin-left:0px;">
+    <div class="card m-2 pt-4" style="width: 10rem;" *ngFor="let menu of menus">
+        <a [routerLink]="[menu.path]" class="text-normal">
+            <img src="{{ menu.icon }}" class="card-img-top" width="100" alt="waiter">
+            <div class="card-body">
+                <h4 class="card-title text-center">{{ menu.name }}</h4>
+            </div>
+        </a>
+    </div>
+</div>

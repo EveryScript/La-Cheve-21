@@ -1,0 +1,59 @@
+<div class="mt-5">
+    <img src="assets/img/users/default.png" class="profile-image" style="display:block; margin:0px auto; width:80px; height:80px;" alt="">
+    <h5 class="text-center"> Bienvenido {{ user_logged.name +' '+ user_logged.surname }} </h5>
+    <button class="btn btn-danger btn-sm" style="display: block; margin: 0px auto;" (click)="closeSesion()">
+      <i class="bi bi-x-lg"></i> Cerrar sesión
+    </button>
+</div>
+  
+  <div class="col-md-10 row mx-auto m-5" style="margin-bottom: 120px;">
+    <div class="col-md-6 card" *ngIf="user_logged.role == 'ADMIN'">
+      <div class="card-body">
+        <h4 class="card-title"> <img src="assets/img/icons/control-panel.png" width="25" class="separate" alt=""> Panel de control de pedidos </h4>
+        <p class="card-text text-muted"> Visualizar el tiempo de pedido y entrega de los productos por mesa en el restaurante </p>
+        <a [routerLink]="['/control-panel']" class="card-link"> <button class="btn btn-success"><i class="bi bi-key-fill separate"></i> Acceder </button> </a>
+      </div>
+    </div>
+    <div class="col-md-6 card">
+      <div class="card-body">
+        <h4 class="card-title"> <img src="assets/img/icons/printer.png" width="25" class="separate" alt=""> Impresión de Cuentas de Clientes </h4>
+        <p class="card-text text-muted"> Imprimir los resúmenes de cuentas de los clientes enviados por los meseros de La Cheve 21 en tiempo real. </p>
+        <a [routerLink]="['/print-accounts']" class="card-link"> <button class="btn btn-success"><i class="bi bi-key-fill separate"></i> Acceder </button> </a>
+      </div>
+    </div>
+    <div class="col-md-6 card">
+      <div class="card-body">
+        <h4 class="card-title"> <img src="assets/img/icons/list-food.png" width="25" class="separate" alt=""> Productos registrados</h4>
+        <p class="card-text text-muted">Administración, actualización y eliminación de la información de los productos del restaurante.</p>
+        <a [routerLink]="['/product-list']" class="card-link"> <button class="btn btn-success"><i class="bi bi-key-fill separate"></i> Acceder </button> </a>
+      </div>
+    </div>
+    <div class="col-md-6 card">
+      <div class="card-body">
+        <h4 class="card-title"> <img src="assets/img/icons/list-users.png" width="25" class="separate" alt=""> Usuarios registrados</h4>
+        <p class="card-text text-muted">Administración, actualización y eliminación de la información del personal registrado en el restaurante</p>
+        <a [routerLink]="['/user-list']" class="card-link"> <button class="btn btn-success"><i class="bi bi-key-fill separate"></i> Acceder </button> </a>
+      </div>
+    </div>
+    <div class="col-md-6 card">
+      <div class="card-body">
+        <h4 class="card-title"> <img src="assets/img/icons/list-tables.png" width="25" class="separate" alt=""> Mesas y áreas del restaurante </h4>
+        <p class="card-text text-muted"> Administración de las areas de atención y mesas del restaurante </p>
+        <a [routerLink]="['/table-list']" class="card-link"> <button class="btn btn-success"><i class="bi bi-key-fill separate"></i> Acceder </button> </a>
+      </div>
+    </div>
+    <div class="col-md-6 card">
+      <div class="card-body">
+        <h4 class="card-title"> <img src="assets/img/icons/list-reports.png" width="25" class="separate" alt=""> Reportes de ganancias por mesero </h4>
+        <p class="card-text text-muted">Resumen de las ganancias de la empresa segun cada mesero en un determinado periodo de tiempo </p>
+        <a [routerLink]="['/reports-gain']" class="card-link"> <button class="btn btn-success"><i class="bi bi-key-fill separate"></i> Acceder </button> </a>
+      </div>
+    </div>
+    <div class="col-md-6 card">
+      <div class="card-body">
+        <h4 class="card-title"> <img src="assets/img/icons/list-reports.png" width="25" class="separate" alt=""> Reportes de productos vendidos por mesero </h4>
+        <p class="card-text text-muted"> Resumen de los productos vendidos segun los meseros del restaurante </p>
+         <a [routerLink]="['/reports-products']" class="card-link"> <button class="btn btn-success"><i class="bi bi-key-fill separate"></i> Acceder </button> </a>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,57 @@
+
+/* Scroll Table Account */
+.my-custom-scrollbar {
+    position: relative;
+    max-height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+/* Hover a */
+a:hover {
+    color: white;
+}
+
+/* Separation icons */
+.separate {
+    margin-right: 4px;
+}
+
+/* Profile image square */
+.profile-image {
+    width: 40px;
+	height: 40px;
+	object-fit: cover;
+    border-radius: 999px;
+    margin-right: 10px;
+}
+
+/* No style to a */
+.text-normal {
+    color: white;
+    text-decoration: none;
+}
+
+/* Style of colors awesome Notifications */
+#awn-popup-wrapper {
+    color: #0E0E0E;
+}
+
+/* Cursor default */
+.arrow {
+    cursor: default;
+}
+
+/* Default font-size small */
+.small-text {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Button Angular File Uploader */
+#attachPin a {
+    background-color: white;
+}

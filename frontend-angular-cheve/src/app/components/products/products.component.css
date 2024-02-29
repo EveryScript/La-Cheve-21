@@ -1,0 +1,32 @@
+/* Mediaquery to products */
+@media (max-width: 480px) {
+    .product-item {
+        width: 50%;
+    }
+}
+
+@media (min-width: 480px) {
+    .product-item {
+        width: 33%;
+    }
+}
+
+@media (min-width: 850px) {
+    .product-item {
+        width: 25%;
+    }
+}
+
+@media (min-width: 1100px) {
+    .product-item {
+        width: 20%;
+    }
+
+    .products-area {
+        width: 70%;   
+    }
+
+    .items-area {
+        width: 30%;
+    }
+}

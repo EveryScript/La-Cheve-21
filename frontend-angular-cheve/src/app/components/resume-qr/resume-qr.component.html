@@ -1,0 +1,88 @@
+<!-- Header Page 
+<app-header></app-header>-->
+
+<img src="assets/img/icons/printer.png" width="30" class="d-block mx-auto mt-3" alt="">
+<h3 class="d-block text-center mt-3"> Impresion de cuentas </h3>
+<p class="card-text text-muted text-center">Imprima las cuentas de cada mesa del restaurante </p>
+<!-- Buttons and inputs -->
+<div class="d-block text-center">  
+  <a [routerLink]="['/admin']">
+    <button class="btn btn-danger btn-sm separate mb-2">
+      <!-- Spinner en Boton -->
+      <span> <i class="bi bi-arrow-90deg-left separate"></i> Volver </span>
+    </button>
+  </a>
+  <button class="btn btn-success btn-sm mb-2" (click)="btnReloadAccountsPrint()">
+    <span class="spinner-border spinner-border-sm separate" role="status" aria-hidden="true" *ngIf="!selecting_flag"></span>
+    <span *ngIf="selecting_flag"> <i class="bi bi-arrow-clockwise separate"></i> Recargar </span>
+  </button>
+</div>
+
+<div class="d-flex justify-content-center">
+  <div class="col-md-7">
+    <div id="myTabContent" class="tab-content">
+      <!-- Accounts to print -->
+      <div class="tab-pane fade p-2 active show" id="pendients">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="min-height:75vh;">
+          <span class="text-muted text-center d-block" *ngIf="accounts.length==0 && selecting_flag"> (vacio) </span>
+          <span class="text-muted text-center d-block mb-3" *ngIf="!selecting_flag"> Cargando cuentas ... </span>
+          <!-- Card Order -->
+          <div *ngFor="let account of accounts">
+            <div class="card border-light mb-3" *ngIf="account.orders.length == 0">
+              <div class="card-header">
+                <span> <i class="bi bi-clock-fill separate"></i>{{ formatTimeAgo(account.updated_at) }} </span>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-10">
+                    <span class="text-success" style="font-size:20px;"> {{ account.table.name }} </span>
+                    <p class="text-center text-muted"> (Cuenta vacia) </p>
+                    <button class="btn btn-success" (click)="btnUpdateAccountEmpty(account.id)">
+                      <span class="sr-only"> Aceptar </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card border-light mb-3" *ngIf="account.orders.length > 0">
+              <div class="card-header">
+                <span> <i class="bi bi-clock-fill separate"></i>{{ formatTimeAgo(account.updated_at) }} </span>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-10">
+                    <span class="text-success" style="font-size:20px;"> {{ account.table.name }} </span>
+                    <table style="font-size:14px; width:93%;" #table_ticket>
+                      <thead>
+                        <tr>
+                          <th style="width:50%"> Producto </th>
+                          <th style="text-align: right;"> Bs. </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr style="height:35px;" *ngFor="let order of account.orders">
+                          <td> {{ order.amount }} {{ order.product.name }} </td>
+                          <td style="text-align: right;"> {{ (order.amount * order.product.price ) }} </td>
+                          <td style="text-align: right;" (click)="btnDeleteOrder(order.account_id, order.product_id, order.created_at, order.amount, order.product.name)"> <i class="bi bi-trash-fill text-danger"></i> </td>
+                        </tr>
+                        <tr style="border-top: 1px solid;">
+                          <th> TOTAL </th>
+                          <th style="text-align: right;"> {{ account.total_price }} </th>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-2 d-flex justify-content-end">
+                    <button class="btn btn-primary" (click)="btnPrintTicket(account.id, table_ticket, account.pay_method)">
+                      <span class="sr-only"><i class="bi bi-printer-fill"></i> Imprimir </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

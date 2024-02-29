@@ -1,0 +1,117 @@
+<div class="p-3 mt-1">
+    <div class="row">
+        <div class="mb-3 products-area">
+            <div class="row">
+                <!-- Navigation area -->
+                <div class="d-flex justify-content-center" style="margin:0px auto">
+                    <ul class="nav nav-pills mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#menu">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#bar">Bar</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Search area -->
+                <div class="col-md-4 input-group mb-2">
+                    <span class="input-group-text"> <i class="bi bi-search"></i> </span>
+                    <input type="text" class="form-control" placeholder="Buscar un producto" name="search"
+                        #search="ngModel" [(ngModel)]="search_key" (keyup)="btnSearchProduct()">
+                </div>
+            </div>
+
+            <!-- Loading spinner ... -->
+            <div class="text-center" *ngIf="!products_menu || !products_bar">
+                <div class="spinner-border" style="width: 3rem; height: 3rem; margin-top: 50px;" role="status">
+                </div>
+            </div>
+
+            <!-- All Products -->
+            <div id="myTabContent" class="tab-content border border-secondary" style="height:76.5%; overflow: hidden;" *ngIf="products_menu && products_bar && !products_all_search">
+                <!-- Content Menu -->
+                <div class="tab-pane table-wrapper-scroll-y my-custom-scrollbar active show" id="menu">
+                    <div class="row inline" id="food-table">
+                        <!-- Button Menu -->
+                        <div class="card text-center product-item" *ngFor="let menu of products_menu">
+                            <div class="card-body" (click)="addOrder(menu.id.toString(), menu.name, menu.type, 'bg-primary', menu.price)">
+                                <!-- <img src="{{ url+'product/get-image/'+menu.image }}" style="width: 80%;"> -->
+                                <h6 class="card-title"> {{ menu.name }} </h6>
+                                <h5 class="card-subtitle mb-1 text-info">{{ menu.price+' Bs.' }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Content Bar -->
+                <div class="tab-pane table-wrapper-scroll-y my-custom-scrollbar fade" id="bar">
+                    <div class="row" id="bar-table">
+                        <!-- Button Bar -->
+                        <div class="card text-center product-item" *ngFor="let bar of products_bar">
+                            <div class="card-body" (click)="addOrder(bar.id.toString(), bar.name, bar.type, 'bg-danger', bar.price)">
+                                <h6 class="card-title"> {{ bar.name }} </h6>
+                                <h6 class="card-subtitle mb-1 text-danger"> {{ bar.price+' Bs.' }} </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search results -->
+            <div id="myTabContent" class="tab-content border border-primary" style="min-height:300px; overflow: hidden;" *ngIf="products_all_search">
+                <!-- Content Menu -->
+                <div class="tab-pane table-wrapper-scroll-y my-custom-scrollbar active show">
+                    <div class="row" id="food-table" style="min-height:80%;">
+                        <div class="card text-center product-item" *ngFor="let product of products_all_search">
+                            <div class="card-body"
+                                (click)="addOrder(product.id, product.name, product.type, formatTypeProduct(product.type), product.price)">
+                                <h6 class="card-title"> {{ product.name }} </h6>
+                                <h6 class="card-subtitle mb-1 text-success">{{ product.price+' Bs.' }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Area -->
+        <div class="items-area">
+            <h4 class="text-center text-warning mb-1"> Total pedido: {{ sum_orders }} Bs. </h4>
+            <!-- Orders area -->
+            <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 30vh;">
+                <!-- Empty alert -->
+                <p class="text-center text-muted" id="empty-alert"></p>
+                <!-- Orders Area -->
+                <table class="table table-hover">
+                    <span class="text-muted" style="font-style: italic; display:block; text-align: center;"
+                        *ngIf="array_orders.length == 0"> No hay pedidos registrados </span>
+                    <tbody class="small-text" id="order-area" *ngFor="let order of array_orders; let indice=index">
+                        <tr id="elem-1">
+                            <td>
+                                <span class="badge rounded-pill {{ order.color_type }}" style="font-size: 14px"> {{
+                                    order.amount }} </span>
+                                {{ order.product_name }}
+                            </td>
+                            <td class="text-center">
+                                <span class="text-muted" style="font-size: 14px;"> {{ order.amount * order.product_price }}
+                                    Bs. </span>
+                            </td>
+                            <td class="text-end">
+                                <i class="bi bi-trash-fill" (click)="deleteOrderByIdProduct(indice)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Buttons send order -->
+            <div class="d-grid gap-2 mt-2">
+                <button class="btn btn-primary" type="button" (click)="btnSendAllOrders()"
+                    [disabled]="array_orders.length == 0 || !selecting_flag">
+                    <span *ngIf="selecting_flag"> <i class="bi bi-send-fill separate"></i> Enviar pedido </span>
+                    <!-- Spinner en Boton -->
+                    <span class="spinner-border spinner-border-sm separate" role="status" aria-hidden="true" *ngIf="!selecting_flag"></span>
+                    <span class="sr-only" *ngIf="!selecting_flag">Cargando</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+<!-- Modal Transfer table -->
+<div class="modal" id="modal-transfer">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"> <strong> Transferir mesa </strong></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <label for="amount"> Mesa origen </label>
+          <input type="text" class="form-control" value="{{ table_name }}" placeholder="Mesa origen" id="inputDefault" disabled>
+        </p>
+        <p>
+          <label for="amount"> Mesa destino </label>
+          <select class="form-control" [(ngModel)]="id_new_table">
+            <option *ngFor="let table of all_tables" value="{{ table.id }}"> {{ table.name }} </option>
+          </select>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" [disabled]="!id_new_table" (click)="btnConfirmTransfer()" data-bs-dismiss="modal"> Transferir </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Salir </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Active Account -->
+<div class="container mt-2" id="card-account">
+    <div class="card border-danger mb-3" style="height:75vh;">
+      <div class="card-header text-center bg-danger fs-5"> {{ table_name }} </div>
+      <div class="card-body">
+        <!-- Loading spinner -->
+        <div class="text-center" *ngIf="!orders">
+          <div class="spinner-border" style="width:3rem; height:3rem; margin-top: 50px;" role="status">
+          </div>
+        </div>
+  
+        <!-- All orders -->
+        <h3 class="text-center" *ngIf="orders">Total {{ total_price }} Bs.</h3>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="min-height:60vh;">
+          <table class="table table-hover">
+            <tbody style="overflow-y:scroll;" *ngFor="let order of orders">
+              <tr>
+                <td class="small-text"> {{ order.amount+' '+order.product.name }} </td>
+                <td class="text-end small-text"> {{ sumPriceAmount(order.product.price, order.amount)+' Bs.' }} </td>
+                <td style="width: 50px;">
+                  <span class="badge bg-secondary" style="font-size: 12px;">
+                    {{ formatTimeAgo(order.created_at) }} </span>
+                </td>
+                <td style="width: 50px;">
+                  <span class="badge bg-dark" *ngIf="order.status == 'PENDING'">
+                    <i class="bi bi-hourglass-bottom"></i> </span>
+                  <span class="badge bg-secondary text-success" style="font-size: 12px;" *ngIf="order.status != 'PENDING'">
+                    {{ formatTimeAgo(order.updated_at) }} </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="orders">
+      <div class="d-flex justify-content-center mb-3 small-text">
+        <!-- Pay Method change area -->
+        <div class="btn-group separate" role="group" aria-label="Basic radio toggle button group" *ngIf="id_account">
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" [checked]="pay_method == 'CASH'"
+          (click)="updatePayMethod('CASH')">
+          <label class="btn btn-lg btn-outline-danger" for="btnradio1"><i class="bi bi-currency-dollar"></i></label>
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" [checked]="pay_method == 'CARD'"
+            (click)="updatePayMethod('CARD')">
+          <label class="btn btn-lg btn-outline-danger" for="btnradio2"><i class="bi bi-credit-card"></i></label>
+        </div>
+        <!-- Transfer table --> 
+        <!-- <div class="btn-group separate" aria-label="Basic select button group" *ngIf="id_account">
+          <button class="btn btn-danger" type="button" data-bs-toggle="modal" (click)="btnTransferTable()" data-bs-target="#modal-transfer" aria-controls="modal-transfer"> Transferir mesa </button>
+        </div> -->
+      </div> 
+      <!-- Buttons -->
+      <div class="d-flex justify-content-center" id="buttons-area">
+        <button type="button" class="btn btn-sm btn-danger separate" (click)="btnNewOrders()">
+          <i class="bi bi-plus separate"></i> Nuevo pedido
+        </button>
+        <button type="button" class="btn btn-sm btn-danger separate" (click)="btnFinishAccount()" [disabled]="cooking_flag">
+          <i class="bi bi-clipboard-check separate"></i> Finalizar cuenta
+        </button>
+        <button type="button" class="btn btn-sm btn-danger separate" (click)="btnReturnTables()">
+          <i class="bi bi-arrow-90deg-left separate"></i> Volver
+        </button>
+      </div>
+    </div>
+  </div>

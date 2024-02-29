@@ -1,0 +1,108 @@
+<div class="container mt-3">
+    <!-- Buttons and inputs -->
+    <a [routerLink]="['/admin']"><button class="btn btn-success btn-sm mb-2 separate"> <i class="bi bi-arrow-90deg-left separate"></i> Volver </button></a>
+    <a [routerLink]="['/product-edit']"><button class="btn btn-success btn-sm mb-2"><i class="bi bi-plus-lg"></i> Nuevo producto</button></a>
+    <div class="input-group mb-1">
+      <input type="text" class="form-control" placeholder="Buscar un producto" (keyup)="searchProduct()" name="search" #search="ngModel" [(ngModel)]="search_key">
+      <span class="input-group-text"> <i class="bi bi-search"></i> </span>
+    </div>
+
+    <!-- Navigate -->
+    <div class="d-flex justify-content-center mt-4" *ngIf="search_key == ''">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link text-primary active" data-bs-toggle="tab" href="#menu-table">Menu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" data-bs-toggle="tab" href="#bar-table">Bar</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Content search -->
+    <div id="myTabContent" class="tab-content mb-5">
+      <!-- Content Table menu -->
+      <div class="tab-pane fade p-2 active show" id="menu-table" *ngIf="search_key != ''">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="min-height:65vh; overflow-x:auto;">
+          <table class="table table-hover mt-1">
+            <thead>
+              <tr>
+                <th scope="col text-primary">Producto</th>
+                <th scope="col text-primary" class="text-center">Tipo</th>
+                <th scope="col text-primary" class="text-center">Bs.</th>
+                <th scope="col text-primary" style="text-align: right;">Operaciones</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let product_search of products_all_search">
+              <tr *ngIf="product_search.type != 'DELETED'">
+                <td> {{ product_search.name }} </td>
+                <td class="text-center"> {{ product_search.type }} </td>
+                <td class="text-center"> {{ product_search.price }} </td>
+                <td style="text-align: right;">
+                  <button class="btn btn-primary btn-sm separate" (click)="btnEditProduct(product_search.id)"><i class="bi bi-pencil-fill"></i></button>
+                  <button class="btn btn-primary btn-sm" (click)="btnDeleteProduct(product_search.id)"><i class="bi bi-trash-fill"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    
+    <!-- Content nav -->
+    <div id="myTabContent" class="tab-content mb-5">
+      <!-- Loading spinner ... -->
+      <div class="text-center" *ngIf="!products_menu">
+        <div class="spinner-border" style="width: 3rem; height: 3rem; margin-top: 50px;" role="status">
+        </div>
+      </div>
+      <!-- Content Table menu -->
+      <div class="tab-pane fade p-2 active show" id="menu-table" *ngIf="products_menu && search_key == ''">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="min-height:65vh; overflow-x:auto;">
+          <table class="table table-hover mt-1">
+            <thead>
+              <tr>
+                <th scope="col text-primary">Producto</th>
+                <th scope="col text-primary" class="text-center">Bs.</th>
+                <th scope="col text-primary" style="text-align: right;">Operaciones</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let menu_product of products_menu">
+              <tr>
+                <td> {{ menu_product.name }} </td>
+                <td class="text-center"> {{ menu_product.price }} </td>
+                <td style="text-align: right;">
+                  <button class="btn btn-primary btn-sm separate" (click)="btnEditProduct(menu_product.id)"><i class="bi bi-pencil-fill"></i></button>
+                  <button class="btn btn-primary btn-sm" (click)="btnDeleteProduct(menu_product.id)"><i class="bi bi-trash-fill"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Content Table Bar -->
+      <div class="tab-pane fade p-2" id="bar-table" *ngIf="products_bar && search_key == ''">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="min-height:65vh; overflow-x:auto;">
+          <table class="table table-hover mt-1">
+            <thead>
+              <tr>
+                <th scope="col text-primary">Producto</th>
+                <th scope="col text-primary" class="text-center">Bs.</th>
+                <th scope="col text-primary" style="text-align: right;">Operaciones</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let bar_product of products_bar">
+              <tr>
+                <td> {{ bar_product.name }} </td>
+                <td class="text-center"> {{ bar_product.price }} </td>
+                <td style="text-align: right;">
+                  <button class="btn btn-danger btn-sm separate" (click)="btnEditProduct(bar_product.id)"><i class="bi bi-pencil-fill"></i></button>
+                  <button class="btn btn-danger btn-sm" (click)="btnDeleteProduct(bar_product.id)"><i class="bi bi-trash-fill"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>

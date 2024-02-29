@@ -1,0 +1,102 @@
+<div class="container mt-3">
+    <div class="col-md-11 mx-auto mt-2">
+        <!-- <img src="assets/img/icons/list-reports.png" width="70" class="mx-auto d-block separate"> -->
+        <h4 class="card-title text-center mt-3"> Reporte de productos vendidos por mesero </h4>
+        <p class="card-text text-muted text-center"> Seleccione un periodo de tiempo para visualizar los productos
+            vendidos pór los meseros </p>
+        <div class="card mb-5">
+            <div class="card-body">
+                <!-- Parameters -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <!-- <select class="form-select" id="exampleSelect1">
+                                <option selected> Seleccione a un mesero </option>
+                              <option *ngFor="let waiter of waiters" (click)="btnSelectWaiter(waiter.id)"> {{ waiter.name+' '+waiter.surname }} </option>
+                            </select> -->
+                            <label class="form-label mt-1" for="readOnlyInput">Seleccione a un mesero </label>
+                            <select class="form-select" [(ngModel)]="waiter">
+                                <option *ngFor="let waiter of waiters" [value]="waiter.id"> {{ waiter.name+' '+waiter.surname }} </option>
+                            </select>
+                        </div>
+                        <fieldset>
+                            <label class="form-label mt-1" for="readOnlyInput">Fecha de inicio </label>
+                            <input class="form-control form-control-sm" id="readOnlyInput" type="datetime-local" max="{{ today }}"
+                                    name="start_date_range" #start_date_range="ngModel" [(ngModel)]="start_date">
+                        </fieldset>
+                        <fieldset>
+                            <label class="form-label mt-1" for="readOnlyInput">Fecha límite </label>
+                            <input class="form-control form-control-sm" id="readOnlyInput" type="datetime-local" min="{{ start_date }}"
+                                    name="end_date_range" #end_date_range="ngModel" [(ngModel)]="end_date">
+                        </fieldset>
+                    </div>
+                    <div class="col-md-9">
+                        <!-- Content Table Reports -->
+                        <div class="tab-pane fade p-2 active show" id="menu-table">
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 370px; overflow-x:auto;">
+                                <h4 class="text-center" style="font-size:18px;">
+                                    <span *ngIf="start_date" class="text-success"> {{ dateToText(start_date) }} </span>
+                                    <span *ngIf="end_date" class="text-warning"> ➨ {{ dateToText(end_date) }} </span>
+                                </h4>
+                                <table class="table table-hover" #table_report>
+                                    <tbody *ngIf="waiter_result && !loading_flag">
+                                        <tr><th colspan="4" class="text-center"> Mesero(a): {{ waiter_result.name+' '+waiter_result.surname }} </th></tr>
+                                        <tr>
+                                            <th class="text-center"> GANANCIAS </th>
+                                            <th class="text-center"> Efectivo: {{ waiter_result.total_cash+' Bs.' }} </th>
+                                            <th class="text-center"> Tarjeta: {{ waiter_result.total_card+' Bs.' }} </th>
+                                            <th class="text-center"> Total: {{ waiter_result.total_gain+' Bs.' }} </th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col text-primary" class="text-center"> Cantidad </th>
+                                            <th scope="col text-primary" class="text-center"> Productos vendidos </th>
+                                            <th scope="col text-primary" class="text-center"> Precio (Bs.) </th>
+                                            <th scope="col text-primary" class="text-center"> Ganancia (Bs.) </th>
+                                        </tr>
+                                        <tr *ngFor="let order of waiter_result.orders">
+                                            <td class="text-center"> {{ order.amount }} </td>
+                                            <td class="text-left"> {{ order.name }} </td>
+                                            <td class="text-center"> {{ order.price }} </td>
+                                            <td class="text-center"> {{ (order.price * order.amount) }} </td>
+                                        </tr>
+                                    </tbody>
+                                    <tr>
+                                        <td colspan="5" *ngIf="loading_flag">
+                                            <!-- Loading spinner ... -->
+                                            <div class="text-center mt-1 mb-1">
+                                                <div class="spinner-border text-info" role="status">
+                                                    <span class="sr-only"></span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Buittons area -->
+            <fieldset class="d-block mx-auto mb-3">
+                <a [routerLink]="['/admin']" class="card-link">
+                    <button class="btn btn-success btn-sm mt-3 separate">
+                        <i class="bi bi-arrow-90deg-left separate"></i> Volver
+                    </button>
+                </a>
+                <span *ngIf="user_logged.role == 'ADMIN'">
+                    <button class="btn btn-success btn-sm mt-3 separate" (click)="btnSendToReport()" [disabled]="!start_date || !end_date || !waiter">
+                        <i class="bi bi-binoculars-fill"></i> Generar reporte
+                    </button>
+                    <button class="btn btn-success btn-sm mt-3 separate" (click)="btnGeneratePdf()" [disabled]="!waiter_result">
+                        <i class="bi bi-printer-fill"></i> Imprimir
+                    </button>
+                </span>
+                <span *ngIf="user_logged.role == 'MAIN'">
+                    <button class="btn btn-success btn-sm mt-3 separate" (click)="btnSendToReport()" [disabled]="!start_date || !end_date || !waiter">
+                        <i class="bi bi-binoculars-fill"></i> Generar reporte e imprimir
+                    </button>
+                </span>
+            </fieldset>
+        </div>
+    </div>
+</div>
